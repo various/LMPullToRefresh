@@ -51,10 +51,9 @@ static const CGFloat imageViewDefaultHeight = 20;
         [refreshControl.dropDownImages addObject:image];
     }
     refreshControl.imageView.image = [refreshControl.dropDownImages firstObject];
-//    refreshControl.imageView.animationImages = refreshControl.loadingImages;
-//    refreshControl.imageView.animationDuration = refreshControl.loadingImages.count * 0.1;
-//    refreshControl.imageView.animationRepeatCount = HUGE_VAL;
-//    [refreshControl.imageView startAnimating];
+    refreshControl.imageView.animationImages = refreshControl.loadingImages;
+    refreshControl.imageView.animationDuration = refreshControl.loadingImages.count * 0.1;
+    refreshControl.imageView.animationRepeatCount = HUGE_VAL;
     return refreshControl;
 }
 
@@ -72,18 +71,26 @@ static const CGFloat imageViewDefaultHeight = 20;
         [self.target performSelector:self.targetAction withObject:nil];
        #pragma clang diagnostic pop
     }
+}
 
+- (void)endRefresh{
+    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveLinear animations:^{
     
+        [self.scrollView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+
+    } completion:^(BOOL finished){
+        [self.imageView stopAnimating];
+    }];
 }
 
 #pragma uiscrolldelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    
+}
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    NSLog(@"%f",self.scrollView.contentOffset.y);
     if (ABS(self.scrollView.contentOffset.y) > RefreshControlDefaultLoadingHeight){
         [self.scrollView setContentInset:UIEdgeInsetsMake(RefreshControlAnimationHeight, 0, 0, 0)];
-        self.imageView.animationImages = self.loadingImages;
-        self.imageView.animationDuration = self.loadingImages.count * 0.1;
-        self.imageView.animationRepeatCount = HUGE_VAL;
         [self.imageView startAnimating];
     }
 }

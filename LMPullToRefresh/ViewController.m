@@ -42,7 +42,7 @@
 
 
 -(void)endLoading{
-
+    [self.refreshControl endRefresh];
 }
 
 - (void)didReceiveMemoryWarning {

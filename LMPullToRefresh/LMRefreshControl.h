@@ -12,4 +12,5 @@
 
 +(LMRefreshControl *)initRefreshControl:(id)target targetAction:(SEL)targetAction scrollView:(UIScrollView *)scrollView;
 
+- (void)endRefresh;
 @end

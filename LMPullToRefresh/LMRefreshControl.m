@@ -9,12 +9,12 @@
 #import "LMRefreshControl.h"
 
 static const CGFloat RefreshControlDefaultLoadingHeight = 70;
-static const CGFloat RefreshControlAnimationHeight = 100;
+static const CGFloat RefreshControlAnimationHeight = 50;
 
 static const CGFloat ImageViewDefaultWidth = 20;
 static const CGFloat imageViewDefaultHeight = 20;
 
-@interface LMRefreshControl ()
+@interface LMRefreshControl ()<UIScrollViewDelegate>
 
 @property(nonatomic,strong) UIScrollView *scrollView;
 @property(nonatomic,strong) NSMutableArray *loadingImages;
@@ -41,6 +41,7 @@ static const CGFloat imageViewDefaultHeight = 20;
     refreshControl.targetAction = targetAction;
     refreshControl.loadingImages = [[NSMutableArray alloc] initWithCapacity:3];
     refreshControl.dropDownImages = [[NSMutableArray alloc] initWithCapacity:60];
+    scrollView.delegate = refreshControl;
     for (int i = 1; i < 4; i++) {
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_loading_0%d",i]];
         [refreshControl.loadingImages addObject:image];
@@ -65,8 +66,26 @@ static const CGFloat imageViewDefaultHeight = 20;
         self.imageViewWidthConstraint.constant = (self.imageView.image.size.width - ImageViewDefaultWidth) * self.pullingPercent + ImageViewDefaultWidth;
         int index = self.pullingPercent * self.dropDownImages.count;
         self.imageView.image = [self.dropDownImages objectAtIndex:index];
+    }else if (ABS(self.scrollView.contentOffset.y) > RefreshControlDefaultLoadingHeight) {
+       #pragma clang diagnostic push
+       #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [self.target performSelector:self.targetAction withObject:nil];
+       #pragma clang diagnostic pop
     }
+
     
+}
+
+#pragma uiscrolldelegate
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    NSLog(@"%f",self.scrollView.contentOffset.y);
+    if (ABS(self.scrollView.contentOffset.y) > RefreshControlDefaultLoadingHeight){
+        [self.scrollView setContentInset:UIEdgeInsetsMake(RefreshControlAnimationHeight, 0, 0, 0)];
+        self.imageView.animationImages = self.loadingImages;
+        self.imageView.animationDuration = self.loadingImages.count * 0.1;
+        self.imageView.animationRepeatCount = HUGE_VAL;
+        [self.imageView startAnimating];
+    }
 }
 
 -(void)dealloc{

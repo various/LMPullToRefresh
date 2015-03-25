@@ -42,7 +42,7 @@
 
 
 -(void)endLoading{
-    NSLog(@"end Loding");
+
 }
 
 - (void)didReceiveMemoryWarning {

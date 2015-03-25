@@ -24,6 +24,7 @@ static const CGFloat imageViewDefaultHeight = 20;
 @property(nonatomic,weak) IBOutlet NSLayoutConstraint *imageViewWidthConstraint;
 @property(nonatomic,assign) CGFloat pullingPercent;
 @property(nonatomic,weak) id target;
+@property(nonatomic,assign) BOOL isDragging;
 @property(nonatomic,assign) SEL targetAction;
 @end
 
@@ -54,13 +55,14 @@ static const CGFloat imageViewDefaultHeight = 20;
     refreshControl.imageView.animationImages = refreshControl.loadingImages;
     refreshControl.imageView.animationDuration = refreshControl.loadingImages.count * 0.1;
     refreshControl.imageView.animationRepeatCount = HUGE_VAL;
+    refreshControl.isDragging = NO;
     return refreshControl;
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     self.frame = CGRectMake(0, 0, self.scrollView.frame.size.width, ABS(self.scrollView.contentOffset.y));
     self.pullingPercent = ABS(self.scrollView.contentOffset.y) / RefreshControlDefaultLoadingHeight;
-    if (ABS(self.scrollView.contentOffset.y) < RefreshControlDefaultLoadingHeight) {
+    if ((ABS(self.scrollView.contentOffset.y) < RefreshControlDefaultLoadingHeight) && self.isDragging) {
         self.imageViewHeightConstraint.constant = (self.imageView.image.size.height - imageViewDefaultHeight) * self.pullingPercent + imageViewDefaultHeight;
         self.imageViewWidthConstraint.constant = (self.imageView.image.size.width - ImageViewDefaultWidth) * self.pullingPercent + ImageViewDefaultWidth;
         int index = self.pullingPercent * self.dropDownImages.count;
@@ -71,6 +73,8 @@ static const CGFloat imageViewDefaultHeight = 20;
         [self.target performSelector:self.targetAction withObject:nil];
        #pragma clang diagnostic pop
     }
+    
+    NSLog(@"frame = %@",NSStringFromCGRect(self.frame));
 }
 
 - (void)endRefresh{
@@ -86,12 +90,15 @@ static const CGFloat imageViewDefaultHeight = 20;
 #pragma uiscrolldelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    
+    self.isDragging = YES;
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if (ABS(self.scrollView.contentOffset.y) > RefreshControlDefaultLoadingHeight){
         [self.scrollView setContentInset:UIEdgeInsetsMake(RefreshControlAnimationHeight, 0, 0, 0)];
+        self.imageViewHeightConstraint.constant = self.imageView.image.size.height;
+        self.imageViewWidthConstraint.constant = self.imageView.image.size.width;
         [self.imageView startAnimating];
+        self.isDragging = NO;
     }
 }
 

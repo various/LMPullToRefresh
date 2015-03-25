@@ -14,6 +14,8 @@
 		7F8FD02F1AC2575C00C40F6E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F8FD02E1AC2575C00C40F6E /* Images.xcassets */; };
 		7F8FD0321AC2575C00C40F6E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F8FD0301AC2575C00C40F6E /* LaunchScreen.xib */; };
 		7F8FD03E1AC2575C00C40F6E /* LMPullToRefreshTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F8FD03D1AC2575C00C40F6E /* LMPullToRefreshTests.m */; };
+		7F8FD0491AC25CBC00C40F6E /* LMRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F8FD0481AC25CBC00C40F6E /* LMRefreshControl.m */; };
+		7F8FD04B1AC25CD300C40F6E /* LMRefreshControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F8FD04A1AC25CD300C40F6E /* LMRefreshControl.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,9 @@
 		7F8FD0371AC2575C00C40F6E /* LMPullToRefreshTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LMPullToRefreshTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F8FD03C1AC2575C00C40F6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F8FD03D1AC2575C00C40F6E /* LMPullToRefreshTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LMPullToRefreshTests.m; sourceTree = "<group>"; };
+		7F8FD0471AC25CBC00C40F6E /* LMRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRefreshControl.h; sourceTree = "<group>"; };
+		7F8FD0481AC25CBC00C40F6E /* LMRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRefreshControl.m; sourceTree = "<group>"; };
+		7F8FD04A1AC25CD300C40F6E /* LMRefreshControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMRefreshControl.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +94,9 @@
 				7F8FD02E1AC2575C00C40F6E /* Images.xcassets */,
 				7F8FD0301AC2575C00C40F6E /* LaunchScreen.xib */,
 				7F8FD0211AC2575C00C40F6E /* Supporting Files */,
+				7F8FD0471AC25CBC00C40F6E /* LMRefreshControl.h */,
+				7F8FD0481AC25CBC00C40F6E /* LMRefreshControl.m */,
+				7F8FD04A1AC25CD300C40F6E /* LMRefreshControl.xib */,
 			);
 			path = LMPullToRefresh;
 			sourceTree = "<group>";
@@ -200,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F8FD02D1AC2575C00C40F6E /* Main.storyboard in Resources */,
+				7F8FD04B1AC25CD300C40F6E /* LMRefreshControl.xib in Resources */,
 				7F8FD0321AC2575C00C40F6E /* LaunchScreen.xib in Resources */,
 				7F8FD02F1AC2575C00C40F6E /* Images.xcassets in Resources */,
 			);
@@ -221,6 +230,7 @@
 			files = (
 				7F8FD02A1AC2575C00C40F6E /* ViewController.m in Sources */,
 				7F8FD0271AC2575C00C40F6E /* AppDelegate.m in Sources */,
+				7F8FD0491AC25CBC00C40F6E /* LMRefreshControl.m in Sources */,
 				7F8FD0241AC2575C00C40F6E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +422,7 @@
 				7F8FD0431AC2575C00C40F6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7F8FD0441AC2575C00C40F6E /* Build configuration list for PBXNativeTarget "LMPullToRefreshTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +431,7 @@
 				7F8FD0461AC2575C00C40F6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

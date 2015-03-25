@@ -26,6 +26,8 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="imageView" destination="gMk-Iz-fXs" id="ZJo-FT-fo2"/>
+                <outlet property="imageViewHeightConstraint" destination="bfo-Hg-gfp" id="RoE-fr-3DF"/>
+                <outlet property="imageViewWidthConstraint" destination="jzH-oo-HjK" id="8ra-LY-PdD"/>
             </connections>
             <point key="canvasLocation" x="140" y="65"/>
         </view>

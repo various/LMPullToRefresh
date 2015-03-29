@@ -60,7 +60,7 @@ static const CGFloat imageViewDefaultHeight = 20;
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    self.frame = CGRectMake(0, 0, self.scrollView.frame.size.width, ABS(self.scrollView.contentOffset.y));
+    self.frame = CGRectMake(0, 0, self.scrollView.frame.size.width, self.scrollView.contentOffset.y);
     self.pullingPercent = ABS(self.scrollView.contentOffset.y) / RefreshControlDefaultLoadingHeight;
     if ((ABS(self.scrollView.contentOffset.y) < RefreshControlDefaultLoadingHeight) && self.isDragging) {
         self.imageViewHeightConstraint.constant = (self.imageView.image.size.height - imageViewDefaultHeight) * self.pullingPercent + imageViewDefaultHeight;
@@ -68,13 +68,10 @@ static const CGFloat imageViewDefaultHeight = 20;
         int index = self.pullingPercent * self.dropDownImages.count;
         self.imageView.image = [self.dropDownImages objectAtIndex:index];
     }else if (ABS(self.scrollView.contentOffset.y) > RefreshControlDefaultLoadingHeight) {
-       #pragma clang diagnostic push
-       #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.target performSelector:self.targetAction withObject:nil];
-       #pragma clang diagnostic pop
+       
     }
     
-    NSLog(@"frame = %@",NSStringFromCGRect(self.frame));
+    NSLog(@"frame = %@",NSStringFromCGRect(self.scrollView.frame));
 }
 
 - (void)endRefresh{
@@ -94,10 +91,15 @@ static const CGFloat imageViewDefaultHeight = 20;
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if (ABS(self.scrollView.contentOffset.y) > RefreshControlDefaultLoadingHeight){
+        
         [self.scrollView setContentInset:UIEdgeInsetsMake(RefreshControlAnimationHeight, 0, 0, 0)];
         self.imageViewHeightConstraint.constant = self.imageView.image.size.height;
         self.imageViewWidthConstraint.constant = self.imageView.image.size.width;
         [self.imageView startAnimating];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [self.target performSelector:self.targetAction withObject:nil];
+#pragma clang diagnostic pop
         self.isDragging = NO;
     }
 }

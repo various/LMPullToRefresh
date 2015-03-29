@@ -26,6 +26,10 @@
     [self performSelector:@selector(endLoading) withObject:self afterDelay:3];
 }
 
+-(void)endLoading{
+    [self.refreshControl endRefresh];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 10;
 }
@@ -41,9 +45,7 @@
 }
 
 
--(void)endLoading{
-    [self.refreshControl endRefresh];
-}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
